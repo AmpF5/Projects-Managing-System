@@ -2,6 +2,7 @@
 
 public class Role
 {
-    public Project Project { get; set; }
-    public Member Member { get; set; }
+    int Id { get; set; }
+    /*public Project Project { get; set; }
+    public Member Member { get; set; }*/
 }
