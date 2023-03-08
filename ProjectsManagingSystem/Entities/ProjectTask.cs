@@ -17,3 +17,4 @@ namespace ProjectsManagingSystem.Entities
         public State State { get; set; }
     }
 }
+//// dodac deadline
