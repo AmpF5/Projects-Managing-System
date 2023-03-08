@@ -10,6 +10,6 @@ public class ProjectSystemDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=(localdb)\MVC;Database=ProjectManagingSystemDB;Trusted_Connection=True");
+        optionsBuilder.UseSqlServer(@"Server=DESKTOP-ALLUHR9;Database=ProjectsManagingSystemDb;Trusted_Connection=True;Encrypt=False;");
     }
 }

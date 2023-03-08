@@ -12,7 +12,8 @@ namespace ProjectsManagingSystem.Entities
         public DateTime DeadOfCreation { get; set; }
         public DateTime DateOfCreation { get; set; }
         public Member AssignTo{ get; set; }
-        public Member Creator { get; set; }
+        public int AssignToId{ get; set; }
+        //public Member Creator { get; set; }
         public State State { get; set; }
     }
 }
