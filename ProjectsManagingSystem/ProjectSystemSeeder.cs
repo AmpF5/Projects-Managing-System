@@ -1,5 +1,6 @@
 ﻿using ProjectsManagingSystem.Entities;
 using System.Net;
+using Microsoft.VisualBasic;
 
 namespace ProjectsManagingSystem
 {
@@ -43,15 +44,10 @@ namespace ProjectsManagingSystem
                             Name = "Create Views",
                             Description = "Create Views for frontend",
                             DateOfCreation = new DateTime(2023, 03, 20),
+                            Deadline = new DateTime(2023, 04,30),
                             State = State.ToDo,
-                            AssignTo = new Member
-                            {
-                                Name = "Janek",
-                                Surname = "Kowalik",
-                                Email = "JanekKowalik@gmail.com",
-                                Password = "1234",
+                            MemberId = 1
 
-                            }
                         },
 
                         new ProjectTask()
@@ -59,15 +55,10 @@ namespace ProjectsManagingSystem
                             Name = "Configure DbContexClass",
                             Description = "Configure DbContexClass for entityframework",
                             DateOfCreation = new DateTime(2023, 03, 20),
+                            Deadline = new DateTime(2023, 04,30),
                             State = State.ToDo,
-                            AssignTo = new Member
-                            {
-                                Name = "Franek",
-                                Surname = "Poduszka",
-                                Email = "FranekPoduszka@gmail.com",
-                                Password = "4321",
+                            MemberId = 2
 
-                            }
 
                         },
 
@@ -92,15 +83,10 @@ namespace ProjectsManagingSystem
                             Name = "Create Models",
                             Description = "Create Models for user, restaurant and dish",
                             DateOfCreation = new DateTime(2023, 03, 20),
+                            Deadline = new DateTime(2023, 04,30),
                             State = State.ToDo,
-                            AssignTo = new Member
-                            {
-                                Name = "Jurek",
-                                Surname = "Malinowski",
-                                Email = "JurekMalinowski@gmail.com",
-                                Password = "xd12",
+                            MemberId = 1
 
-                            },
                         },
 
                         new ProjectTask()
@@ -108,15 +94,10 @@ namespace ProjectsManagingSystem
                             Name = "Configure DbContexClass",
                             Description = "Configure DbContexClass for entityframework",
                             DateOfCreation = new DateTime(2023, 03, 20),
+                            Deadline = new DateTime(2023, 04,30),
                             State = State.ToDo,
-                            AssignTo = new Member
-                            {
-                                Name = "Wojtek",
-                                Surname = "Orzech",
-                                Email = "WojtekOrzech@gmail.com",
-                                Password = "12xd",
+                            MemberId = 1
 
-                            }
                         }
 
                     },
@@ -128,6 +109,14 @@ namespace ProjectsManagingSystem
                             Surname = "ESSa",
                             Email = "Krzysiek@gmail.com",
                             Password = "xq123t",
+                        },
+                        new Member()
+                        {
+                            Name = "Bob",
+                            Surname = "Budowniczy",
+                            Email = "BobTheBuilder@gmail.com",
+                            Password = "asdj213"
+                            
                         }
                     },
                 },
