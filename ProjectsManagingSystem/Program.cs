@@ -1,7 +1,9 @@
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Services.Project;
+using ProjectsManagingSystem.Services.Task;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -10,9 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddDbContext<ProjectSystemDbContext>();
+    builder.Services.AddDbContext<ProjectSystemDbContext>
+        (options => options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectDbConnection")));
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
     builder.Services.AddScoped<IProjectService, ProjectService>();
+    builder.Services.AddScoped<ITaskService, TaskService>();
     builder.Services.AddScoped<ProjectSystemSeeder>();
 }
 
