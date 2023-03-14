@@ -1,6 +1,7 @@
-﻿using ProjectsManagingSystem.Entities;
+﻿using ProjectsManagingSystem.Models.Member;
+using ProjectsManagingSystem.Models.ProjectTask;
 
-namespace ProjectsManagingSystem.Models;
+namespace ProjectsManagingSystem.Models.Project;
 
 public class ProjectResponseDto
 {

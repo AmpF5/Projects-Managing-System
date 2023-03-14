@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Project;
 
 namespace ProjectsManagingSystem.Services.Project;
 

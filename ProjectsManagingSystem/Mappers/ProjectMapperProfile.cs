@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Member;
+using ProjectsManagingSystem.Models.Project;
+using ProjectsManagingSystem.Models.ProjectTask;
 
 namespace ProjectsManagingSystem.Mappers;
 

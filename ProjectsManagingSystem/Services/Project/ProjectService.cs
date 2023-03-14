@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Project;
 
 namespace ProjectsManagingSystem.Services.Project;
 
@@ -19,6 +20,7 @@ public class ProjectService : IProjectService
     public ProjectResponseDto Create(ProjectDto dto)
     {
         var project = _mapper.Map<Entities.Project>(dto);
+        
         _dbContext.Projects.Add(project);
         _dbContext.SaveChanges();
         var projectResponse = _mapper.Map<ProjectResponseDto>(project);
@@ -28,12 +30,10 @@ public class ProjectService : IProjectService
     public ProjectResponseDto GetById(int id)
     {
         var project = _dbContext.Projects
-            // .Include(r => r.Members)
             .Include(r => r.Tasks)
             .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == id);
-        // project.Members = _dbContext.Members.Where(x => x.Projects.Any(p => p.Id == id)).ToList();
-        // project.Tasks = _dbContext.ProjectTasks.Where(x => x.ProjectId == id).ToList();
+        
         var result = _mapper.Map<ProjectResponseDto>(project);
         return result;
     }
@@ -41,6 +41,7 @@ public class ProjectService : IProjectService
     public bool Delete(int id)
     {
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
+        
         if (project is null) return false;
         _dbContext.Projects.Remove(project);
         _dbContext.SaveChanges();

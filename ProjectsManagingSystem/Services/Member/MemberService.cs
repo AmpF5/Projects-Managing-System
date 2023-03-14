@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Member;
 
 namespace ProjectsManagingSystem.Services.Member;
 
