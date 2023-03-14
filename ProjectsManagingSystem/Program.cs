@@ -1,6 +1,7 @@
 using System.Reflection;
 using ProjectsManagingSystem;
 using ProjectsManagingSystem.Entities;
+using ProjectsManagingSystem.Services.Member;
 using ProjectsManagingSystem.Services.Project;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<ProjectSystemDbContext>();
     builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
     builder.Services.AddScoped<IProjectService, ProjectService>();
+    builder.Services.AddScoped<IMemberService, MemberService>();
     builder.Services.AddScoped<ProjectSystemSeeder>();
 }
 

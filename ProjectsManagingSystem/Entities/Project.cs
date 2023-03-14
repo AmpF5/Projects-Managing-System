@@ -8,5 +8,5 @@ public class Project
     public DateTime Deadline { get; set; }
     public List<ProjectTask> Tasks { get; set; }
     public List<Member> Members { get; set; }
-    public DateTime DateOfCreation { get; set; }
+    public DateTime DateOfCreation { get; set; } = DateTime.Now;
 }

@@ -18,11 +18,13 @@ public class ProjectController : Controller
     [HttpPost]
     public IActionResult CreateProject([FromBody] ProjectDto request)
     {
-        
-        return Ok(request);
+
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var project = _projectService.Create(request);
+        return Ok(project);
     }
 
-    [HttpGet]
+    [HttpGet("{id:int}")]
     public IActionResult GetProject(int id)
     {
         var project = _projectService.GetById(id);
@@ -30,5 +32,23 @@ public class ProjectController : Controller
         // var membersOfProject = _membersService.GetById(project.Id);
         // var tasksInProject = _ProjectTasks.GetById(project.Id);
         return Ok(project);
+    }
+
+    [HttpDelete("{id:int}")]
+    public ActionResult Delete([FromRoute] int id)
+    {
+        var isDeleted = _projectService.Delete(id);
+        
+        return isDeleted ? NoContent() : NotFound();
+    }
+
+    [HttpPut("{id:int}")]
+    public ActionResult Put([FromBody] ProjectDto dto, [FromRoute] int id)
+    {
+        if (!ModelState.IsValid) return BadRequest();
+
+        var project = _projectService.Update(dto, id);
+
+        return project ? Ok() : NotFound();
     }
 }
