@@ -16,9 +16,13 @@ public class ProjectService : IProjectService
         _dbContext = dbContext;
         _mapper = mapper;
     }
-    public IActionResult Create(ProjectDto dto)
+    public ProjectResponseDto Create(ProjectDto dto)
     {
-        throw new NotImplementedException();
+        var project = _mapper.Map<Entities.Project>(dto);
+        _dbContext.Projects.Add(project);
+        _dbContext.SaveChanges();
+        var projectResponse = _mapper.Map<ProjectResponseDto>(project);
+        return projectResponse;
     }
 
     public ProjectResponseDto GetById(int id)
@@ -26,6 +30,7 @@ public class ProjectService : IProjectService
         var project = _dbContext.Projects
             // .Include(r => r.Members)
             .Include(r => r.Tasks)
+            .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == id);
         // project.Members = _dbContext.Members.Where(x => x.Projects.Any(p => p.Id == id)).ToList();
         // project.Tasks = _dbContext.ProjectTasks.Where(x => x.ProjectId == id).ToList();
@@ -33,8 +38,26 @@ public class ProjectService : IProjectService
         return result;
     }
 
-    public IActionResult Delete(int id)
+    public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
+        if (project is null) return false;
+        _dbContext.Projects.Remove(project);
+        _dbContext.SaveChanges();
+        return true;
+    }
+
+    public bool Update(ProjectDto dto, int id)
+    {
+        var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
+        
+        if (project is null) return false;
+        project.Name = dto.Name;
+        project.Description = dto.Description;
+        project.Deadline = dto.Deadline;
+
+        _dbContext.SaveChanges();
+        return true;
+
     }
 }
