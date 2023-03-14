@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.ProjectTask;
 using ProjectsManagingSystem.Services.Task;
 
 namespace ProjectsManagingSystem.Controllers
@@ -17,7 +18,7 @@ namespace ProjectsManagingSystem.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetTaskById(int id)
         {
             var task = _taskService.GetById(id);
@@ -33,7 +34,7 @@ namespace ProjectsManagingSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateEducationalMaterial([FromBody] ProjectTaskDto dto)
+        public IActionResult CreateEducationalMaterial([FromBody] ProjectTaskDto dto)
         {
 
             if (!ModelState.IsValid)
@@ -47,8 +48,8 @@ namespace ProjectsManagingSystem.Controllers
             return Created($"/api/material/{id}", null);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute] int id)
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete([FromRoute] int id)
         {
             var isDeleted = _taskService.Delete(id);
 
@@ -61,7 +62,7 @@ namespace ProjectsManagingSystem.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public ActionResult Update([FromBody] ProjectTaskDto dto, [FromRoute] int id)
         {
             if (!ModelState.IsValid)

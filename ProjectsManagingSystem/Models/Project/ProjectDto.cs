@@ -1,4 +1,4 @@
-﻿namespace ProjectsManagingSystem.Models;
+﻿namespace ProjectsManagingSystem.Models.Project;
 
 public class ProjectDto
 {

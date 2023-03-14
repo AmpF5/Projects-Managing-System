@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.ProjectTask;
 
 namespace ProjectsManagingSystem.Services.Task
 {

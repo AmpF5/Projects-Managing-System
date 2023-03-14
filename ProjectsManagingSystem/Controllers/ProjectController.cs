@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Services.Project;
 
 namespace ProjectsManagingSystem.Controllers;
@@ -35,7 +36,7 @@ public class ProjectController : Controller
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult Delete([FromRoute] int id)
+    public IActionResult Delete([FromRoute] int id)
     {
         var isDeleted = _projectService.Delete(id);
         
@@ -43,7 +44,7 @@ public class ProjectController : Controller
     }
 
     [HttpPut("{id:int}")]
-    public ActionResult Put([FromBody] ProjectDto dto, [FromRoute] int id)
+    public IActionResult Put([FromBody] ProjectDto dto, [FromRoute] int id)
     {
         if (!ModelState.IsValid) return BadRequest();
 
