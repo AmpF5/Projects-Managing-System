@@ -11,6 +11,7 @@ public class ProjectMapperProfile : Profile
         CreateMap<Project, ProjectResponseDto>();
         CreateMap<ProjectDto, Project>();
         CreateMap<ProjectTask, ProjectTaskResponseDto>();
+        CreateMap<ProjectTaskDto, ProjectTask>();
         CreateMap<Member, MemberResponseDto>();
         CreateMap<MemberDto, Member>();
     }
