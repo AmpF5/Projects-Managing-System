@@ -5,7 +5,8 @@ namespace ProjectsManagingSystem.Services.Project;
 
 public interface IProjectService
 {
-    IActionResult Create(ProjectDto dto);
+    ProjectResponseDto Create(ProjectDto dto);
     ProjectResponseDto GetById(int id);
-    IActionResult Delete(int id);
+    bool Delete(int id);
+    bool Update(ProjectDto dto, int id);
 }
