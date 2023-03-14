@@ -27,14 +27,14 @@ namespace ProjectsManagingSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAll()
+        public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks()
         {
             var tasks = _taskService.GetAll();
             return Ok(tasks);
         }
 
         [HttpPost]
-        public IActionResult CreateEducationalMaterial([FromBody] ProjectTaskDto dto)
+        public IActionResult CreateTask([FromBody] ProjectTaskDto dto)
         {
 
             if (!ModelState.IsValid)
@@ -45,17 +45,17 @@ namespace ProjectsManagingSystem.Controllers
             var id = _taskService.Create(dto);
 
 
-            return Created($"/api/material/{id}", null);
+            return Created($"{id}", null);
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+        public IActionResult DeleteTask([FromRoute] int id)
         {
             var isDeleted = _taskService.Delete(id);
 
             if (isDeleted)
             {
-                return NoContent();
+                return NoContent(); 
             }
 
             return NotFound();
@@ -63,7 +63,7 @@ namespace ProjectsManagingSystem.Controllers
 
 
         [HttpPut("{id:int}")]
-        public ActionResult Update([FromBody] ProjectTaskDto dto, [FromRoute] int id)
+        public IActionResult UpdateTask([FromBody] ProjectTaskDto dto, [FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
