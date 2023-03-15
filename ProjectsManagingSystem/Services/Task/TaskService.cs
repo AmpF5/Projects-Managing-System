@@ -60,6 +60,8 @@ namespace ProjectsManagingSystem.Services.Task
 
         public int Create(ProjectTaskDto dto)
         {
+            dto.MemberId = 1;
+
             var task = _mapper.Map<ProjectTask>(dto);
             _dbContext.ProjectTasks.Add(task);
             _dbContext.SaveChanges();
