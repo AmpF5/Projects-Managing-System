@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 
 namespace ProjectsManagingSystem.Services.Project;
@@ -35,6 +36,15 @@ public class ProjectService : IProjectService
             .FirstOrDefault(x => x.Id == id);
         
         var result = _mapper.Map<ProjectResponseDto>(project);
+        return result;
+    }
+
+    public IEnumerable<MemberResponseDto> GetMembers(int id)
+    {
+        var project = _dbContext.Projects.Include(m => m.Members).FirstOrDefault(x => x.Id == id);
+        var members = project?.Members;
+        
+        var result = _mapper.Map<List<MemberResponseDto>>(members);
         return result;
     }
 

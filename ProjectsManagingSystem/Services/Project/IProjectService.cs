@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 
 namespace ProjectsManagingSystem.Services.Project;
@@ -8,6 +9,7 @@ public interface IProjectService
 {
     ProjectResponseDto Create(ProjectDto dto);
     ProjectResponseDto GetById(int id);
+    IEnumerable<MemberResponseDto> GetMembers(int id);
     bool Delete(int id);
     bool Update(ProjectDto dto, int id);
 }
