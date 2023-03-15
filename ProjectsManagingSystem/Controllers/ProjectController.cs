@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
+using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Services.Project;
 
@@ -35,6 +37,14 @@ public class ProjectController : Controller
         return Ok(project);
     }
 
+    [HttpGet("{id:int}/members")]
+    public ActionResult<IEnumerable<MemberResponseDto>> GetMembers(int id)
+    {
+        var members = _projectService.GetMembers(id);
+
+        return members.IsNullOrEmpty() ? NoContent() : Ok(members);
+        // return Ok(members);
+    }
     [HttpDelete("{id:int}")]
     public IActionResult Delete([FromRoute] int id)
     {
