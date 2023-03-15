@@ -26,10 +26,10 @@ namespace ProjectsManagingSystem.Controllers
             return Ok(task);
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAll()
+        [HttpGet("Project/{id:int}/tasks")]
+        public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAll(int id)
         {
-            var tasks = _taskService.GetAll();
+            var tasks = _taskService.GetAll(id);
             return Ok(tasks);
         }
 

@@ -32,10 +32,11 @@ namespace ProjectsManagingSystem.Services.Task
         }
 
 
-        public  IEnumerable<ProjectTaskResponseDto> GetAll()
+        public  IEnumerable<ProjectTaskResponseDto> GetAll(int id)
         {
             var tasks = _dbContext
                 .ProjectTasks
+                .Where(task => task.ProjectId == id)
                 .ToList();
 
             var result = _mapper.Map<List<ProjectTaskResponseDto>>(tasks);
