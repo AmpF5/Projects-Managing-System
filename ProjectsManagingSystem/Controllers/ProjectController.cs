@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper.Execution;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
+using ProjectsManagingSystem.Models.ProjectTask;
 using ProjectsManagingSystem.Services.Project;
 
 namespace ProjectsManagingSystem.Controllers;
@@ -42,6 +44,16 @@ public class ProjectController : Controller
         return members.IsNullOrEmpty() ? NoContent() : Ok(members);
         // return Ok(members);
     }
+
+    [HttpGet("{id:int}/tasks")]
+    public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks([FromRoute] int ProjectId)
+    {
+        var tasks = _projectService.GetTasks(ProjectId);
+
+        return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
+    }
+
+
     [HttpDelete("{id:int}")]
     public IActionResult DeleteProject([FromRoute] int id)
     {
