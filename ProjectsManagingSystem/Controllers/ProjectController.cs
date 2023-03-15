@@ -22,21 +22,18 @@ public class ProjectController : Controller
 
         if (!ModelState.IsValid) return BadRequest(ModelState);
         var project = _projectService.Create(request);
-        return Ok(project);
+        return CreatedAtAction(nameof(GetProject), new { id = project.Id }, project);
     }
 
     [HttpGet("{id:int}")]
     public IActionResult GetProject(int id)
     {
         var project = _projectService.GetById(id);
-        // TODO: check if this is a correct way to approach returning whole project
-        // var membersOfProject = _membersService.GetById(project.Id);
-        // var tasksInProject = _ProjectTasks.GetById(project.Id);
         return Ok(project);
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete([FromRoute] int id)
+    public IActionResult DeleteProject([FromRoute] int id)
     {
         var isDeleted = _projectService.Delete(id);
         
@@ -44,7 +41,7 @@ public class ProjectController : Controller
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Put([FromBody] ProjectDto dto, [FromRoute] int id)
+    public IActionResult UpdateProject([FromBody] ProjectDto dto, [FromRoute] int id)
     {
         if (!ModelState.IsValid) return BadRequest();
 
