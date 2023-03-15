@@ -21,7 +21,7 @@ public class MemberController : Controller
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         var member = _memberService.Create(request);
-        return Ok(member);
+        return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
     }
 
     [HttpGet("{id:int}")]
