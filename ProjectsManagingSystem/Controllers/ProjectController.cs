@@ -66,6 +66,14 @@ public class ProjectController : Controller
         return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
     }
 
+    [HttpPut("{projectId:int}/task/{taskId:int}/{memberId:int}")]
+    public IActionResult AssignMemberToTask([FromRoute] int projectId,[FromRoute] int taskId,[FromRoute] int memberId)
+    {
+        var isTaskValid = _projectService.AssignMemberToTask(projectId, taskId, memberId);
+
+        return isTaskValid ? NoContent() : NotFound();
+    }
+
 
     [HttpDelete("{id:int}")]
     public IActionResult DeleteProject([FromRoute] int id)
