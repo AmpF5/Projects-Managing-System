@@ -10,6 +10,7 @@ public interface IProjectService
 {
     ProjectResponseDto Create(ProjectDto dto);
     ProjectResponseDto GetById(int id);
+    ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto);
     IEnumerable<MemberResponseDto> GetMembers(int id);
     IEnumerable<ProjectTaskResponseDto> GetTasks(int id);
     bool Delete(int id);

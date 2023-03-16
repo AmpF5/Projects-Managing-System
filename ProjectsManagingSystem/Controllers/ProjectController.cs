@@ -29,6 +29,19 @@ public class ProjectController : Controller
         return CreatedAtAction(nameof(GetProject), new { id = project.Id }, project);
     }
 
+    [HttpPost("{id:int}/task")]
+    public ActionResult AddTaskToProject([FromRoute] int id, [FromBody] ProjectTaskDto dto )
+    {
+
+        var task = _projectService.AddTaskToProject(id, dto);
+        return CreatedAtAction(nameof(GetProject), new { id = task.Id }, task);
+
+    }
+
+
+
+
+
     [HttpGet("{id:int}")]
     public IActionResult GetProject(int id)
     {
