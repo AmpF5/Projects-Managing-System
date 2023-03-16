@@ -14,6 +14,7 @@ public interface IProjectService
     IEnumerable<MemberResponseDto> GetMembers(int id);
     IEnumerable<ProjectTaskResponseDto> GetTasks(int id);
     bool AddMemberToProject(int id, int memberId);
+    bool AssignMemberToTask(int projectId, int taskId, int memberId);
     bool Delete(int id);
     bool Update(ProjectDto dto, int id);
 }

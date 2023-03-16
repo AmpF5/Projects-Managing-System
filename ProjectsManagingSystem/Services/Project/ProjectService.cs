@@ -103,6 +103,26 @@ public class ProjectService : IProjectService
         return result;
     }
 
+    public bool AssignMemberToTask(int projectId, int taskId, int memberId)
+    {
+        var project = _dbContext.Projects
+            .Include(r => r.Tasks)
+            .Include(m => m.Members)
+            .FirstOrDefault(x => x.Id == projectId);
+        
+        var task = project.Tasks.FirstOrDefault(t => t.Id == taskId);
+        if (task is null) return false;
+
+        var member = project.Members.FirstOrDefault(m => m.Id == memberId);
+        if (member is null) return false;
+
+        task.MemberId = member.Id;
+
+        var response = _mapper.Map<ProjectTaskResponseDto>(task);
+        _dbContext.SaveChanges();
+        return true;
+    }
+
     public bool Delete(int id)
     {
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
