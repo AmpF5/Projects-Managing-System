@@ -5,6 +5,7 @@ using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
+using ProjectsManagingSystem.Models.ProjectTask;
 
 namespace ProjectsManagingSystem.Services.Project;
 
@@ -45,6 +46,19 @@ public class ProjectService : IProjectService
         var members = project?.Members;
         
         var result = _mapper.Map<List<MemberResponseDto>>(members);
+        return result;
+    }
+
+    public IEnumerable<ProjectTaskResponseDto> GetTasks(int id)
+    {
+        var project = _dbContext
+            .Projects
+            .Include(t => t.Tasks).FirstOrDefault(x => x.Id == id);
+
+        var tasks = project?.Tasks;
+
+        var result = _mapper.Map<List<ProjectTaskResponseDto>>(tasks);
+
         return result;
     }
 
