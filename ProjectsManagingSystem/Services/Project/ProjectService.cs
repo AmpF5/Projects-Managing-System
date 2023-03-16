@@ -29,6 +29,23 @@ public class ProjectService : IProjectService
         return projectResponse;
     }
 
+    public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
+    {
+        dto.ProjectId = id;
+        dto.MemberId = 1;
+
+        var task = _mapper.Map<Entities.ProjectTask>(dto);
+
+        _dbContext.ProjectTasks.Add(task);
+        _dbContext.SaveChanges();
+
+        var taskResponse = _mapper.Map<ProjectTaskResponseDto>(task);
+        return taskResponse;
+
+    }
+
+
+
     public ProjectResponseDto GetById(int id)
     {
         var project = _dbContext.Projects
