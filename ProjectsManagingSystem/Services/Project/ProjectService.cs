@@ -29,6 +29,30 @@ public class ProjectService : IProjectService
         return projectResponse;
     }
 
+    public bool AddMemberToProject(int id, int memberId)
+    {
+        var project = _dbContext
+            .Projects
+            .Include(m => m.Members)
+            .FirstOrDefault(x => x.Id == id);
+
+        var member = _dbContext
+            .Members
+            .Include(m => m.Projects)
+            .FirstOrDefault(x => x.Id == memberId);
+
+        if (project == null || member == null) { return false; }
+        
+        member.Projects.Add(project);
+        project.Members.Add(member);
+
+        _dbContext.SaveChanges();
+
+        return true;
+
+    }
+
+
     public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
     {
         dto.ProjectId = id;

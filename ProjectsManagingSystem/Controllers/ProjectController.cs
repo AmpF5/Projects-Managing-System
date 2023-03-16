@@ -84,4 +84,13 @@ public class ProjectController : Controller
 
         return project ? Ok() : NotFound();
     }
+
+
+    [HttpPut("{id:int}/member/{memberId:int}")]
+    public IActionResult AddMemberToProject([FromRoute] int id, [FromRoute] int memberId)
+    {
+        var project = _projectService.AddMemberToProject(id, memberId);
+
+        return project ? Ok() : NotFound();
+    }
 }
