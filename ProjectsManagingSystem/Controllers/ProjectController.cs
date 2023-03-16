@@ -46,9 +46,9 @@ public class ProjectController : Controller
     }
 
     [HttpGet("{id:int}/tasks")]
-    public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks([FromRoute] int ProjectId)
+    public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks(int id)
     {
-        var tasks = _projectService.GetTasks(ProjectId);
+        var tasks = _projectService.GetTasks(id);
 
         return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
     }
