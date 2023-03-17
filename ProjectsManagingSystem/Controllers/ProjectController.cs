@@ -55,8 +55,19 @@ public class ProjectController : Controller
         var members = _projectService.GetMembers(id);
 
         return members.IsNullOrEmpty() ? NoContent() : Ok(members);
-        // return Ok(members);
+        // return Ok(members); IEnumerable<ProjectTaskResponseDto> GetMemberProjectTask(int id, int memberId);
     }
+
+
+    [HttpGet("{id:int}/tasks/member/{memberId:int}")]
+    public ActionResult<IEnumerable<MemberResponseDto>> GetMemberProjectTask(int id, int memberId)
+    {
+        var members = _projectService.GetMemberProjectTask(id,memberId);
+
+        return members.IsNullOrEmpty() ? NoContent() : Ok(members);
+    }
+
+
 
     [HttpGet("{id:int}/tasks")]
     public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks(int id)
