@@ -59,7 +59,7 @@ public class ProjectController : Controller
     }
 
 
-    [HttpGet("{id:int}/tasks/member/{memberId:int}")]
+    [HttpGet("{id:int}/member/{memberId}/tasks")]
     public ActionResult<IEnumerable<MemberResponseDto>> GetMemberProjectTask(int id, int memberId)
     {
         var members = _projectService.GetMemberProjectTask(id,memberId);
