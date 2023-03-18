@@ -24,9 +24,37 @@ namespace ProjectsManagingSystem
                     _dBContext.Projects.AddRange(projects);
                     _dBContext.SaveChanges();
                 }
+
+                if (!_dBContext.Roles.Any())
+                {
+                    var roles = GetRoles();
+                    _dBContext.Roles.AddRange(roles);
+                    _dBContext.SaveChanges();
+                }
+                
             }
+            
         }
 
+        private IEnumerable<Role> GetRoles()
+        {
+            var roles = new List<Role>()
+            {
+                new Role()
+                {
+                    Name = "User"
+                },
+                new Role()
+                {
+                    Name = "Moderator"
+                },
+                new Role()
+                {
+                    Name = "Administrator"
+                }
+            };
+            return roles;
+        }
         private IEnumerable<Project> GetProjects()
         {
             var projects = new List<Project>()
