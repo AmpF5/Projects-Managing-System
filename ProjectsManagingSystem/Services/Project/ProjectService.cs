@@ -118,6 +118,7 @@ public class ProjectService : IProjectService
             .IncludeMembers()
             .Include(r => r.Tasks)
             .FirstOrDefault(x => x.Id == projectId);
+        if (project is null) return false;
         
         var task = project.Tasks.FirstOrDefault(t => t.Id == taskId);
         if (task is null) return false;
