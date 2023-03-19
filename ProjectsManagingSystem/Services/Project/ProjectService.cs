@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
+using ProjectsManagingSystem.ExtensionMethods;
 using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
@@ -33,18 +34,24 @@ public class ProjectService : IProjectService
     {
         var project = _dbContext
             .Projects
-            .Include(m => m.Members)
+            .IncludeMembers()
             .FirstOrDefault(x => x.Id == id);
 
         var member = _dbContext
             .Members
-            .Include(m => m.Projects)
+            .IncludeProjects()
             .FirstOrDefault(x => x.Id == memberId);
 
         if (project == null || member == null) { return false; }
-        
-        member.Projects.Add(project);
-        project.Members.Add(member);
+        project.MemberProjects.Add(
+            new MemberProject()
+            {
+                MemberId = memberId,
+                ProjectId = id,
+                Role = Role.Member
+            });
+        // member.Projects.Add(project);
+        // project.Members.Add(member);
 
         _dbContext.SaveChanges();
 
@@ -56,7 +63,7 @@ public class ProjectService : IProjectService
     public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
     {
         dto.ProjectId = id;
-        dto.MemberId = 1;
+        // dto.MemberId = 1;
 
         var task = _mapper.Map<Entities.ProjectTask>(dto);
 
