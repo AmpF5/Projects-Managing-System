@@ -45,4 +45,20 @@ public class MemberController : Controller
         var member = _memberService.Update(request, id);
         return member ? Ok() : NotFound();
     }
+
+    [HttpPost("register")]
+    public ActionResult RegisterMember([FromBody] MemberDto dto)
+    {
+        _memberService.RegisterMember(dto);
+        return Ok();
+    }
+
+    [HttpPost("login")]
+    public ActionResult Login([FromBody] LoginDto dto)
+    {
+        string token = _memberService.GenerateJwt(dto);
+        return Ok(token);
+
+    }
+
 }
