@@ -90,10 +90,12 @@ public class ProjectService : IProjectService
 
     public IEnumerable<MemberResponseDto> GetMembers(int id)
     {
-        var project = _dbContext.Projects.IncludeMembers().FirstOrDefault(x => x.Id == id);
-        
-        
-        var result = _mapper.Map<List<MemberResponseDto>>(project);
+        var project = _dbContext.Projects
+            .IncludeMembers()
+            .FirstOrDefault(x => x.Id == id);
+
+        var members = project.MemberProjects.Select(x => x.Member).ToList();
+        var result = _mapper.Map<List<MemberResponseDto>>(members);
         return result;
     }
 
@@ -116,6 +118,7 @@ public class ProjectService : IProjectService
             .IncludeMembers()
             .Include(r => r.Tasks)
             .FirstOrDefault(x => x.Id == projectId);
+        if (project is null) return false;
         
         var task = project.Tasks.FirstOrDefault(t => t.Id == taskId);
         if (task is null) return false;
