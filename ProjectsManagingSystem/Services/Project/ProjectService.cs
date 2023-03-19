@@ -80,8 +80,8 @@ public class ProjectService : IProjectService
     public ProjectResponseDto GetById(int id)
     {
         var project = _dbContext.Projects
+            .IncludeMembers()
             .Include(r => r.Tasks)
-            .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == id);
         
         var result = _mapper.Map<ProjectResponseDto>(project);
@@ -90,10 +90,10 @@ public class ProjectService : IProjectService
 
     public IEnumerable<MemberResponseDto> GetMembers(int id)
     {
-        var project = _dbContext.Projects.Include(m => m.Members).FirstOrDefault(x => x.Id == id);
-        var members = project?.Members;
+        var project = _dbContext.Projects.IncludeMembers().FirstOrDefault(x => x.Id == id);
         
-        var result = _mapper.Map<List<MemberResponseDto>>(members);
+        
+        var result = _mapper.Map<List<MemberResponseDto>>(project);
         return result;
     }
 
@@ -113,17 +113,17 @@ public class ProjectService : IProjectService
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
         var project = _dbContext.Projects
+            .IncludeMembers()
             .Include(r => r.Tasks)
-            .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == projectId);
         
         var task = project.Tasks.FirstOrDefault(t => t.Id == taskId);
         if (task is null) return false;
 
-        var member = project.Members.FirstOrDefault(m => m.Id == memberId);
+        var member = project.MemberProjects.FirstOrDefault(m => m.MemberId == memberId);
         if (member is null) return false;
 
-        task.MemberId = member.Id;
+        task.MemberId = memberId;
 
         var response = _mapper.Map<ProjectTaskResponseDto>(task);
         _dbContext.SaveChanges();
