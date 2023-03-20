@@ -61,11 +61,4 @@ public class MemberController : Controller
 
     }
 
-    [HttpGet("test")]
-    public IActionResult GetRoleId()
-    {
-        var roleId = _memberService.GetJwt();
-        return Ok(roleId);
-    }
-
 }

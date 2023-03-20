@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ProjectsManagingSystem.Exceptions;
+using ProjectsManagingSystem.ExtensionMethods;
 
 namespace ProjectsManagingSystem.Services.Member;
 
@@ -121,15 +122,25 @@ public class MemberService : IMemberService
 
     }
 
-    public string GetJwt()
+    public bool AuthorizeModerator(int projectId)
     {
         var result = string.Empty;
-        // if (_httpContextAccessor.HttpContext != null)
-        // {
-        //     result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        // }
+        if (_httpContextAccessor.HttpContext != null)
+        {
+            result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = int.Parse(result);
+            
+            var project = _dbContext
+                .Projects
+                .IncludeMembers()
+                .FirstOrDefault(x => x.Id == projectId);
 
-        return result;
+            var member = project.MemberProjects.FirstOrDefault(x => x.Id == id);
+
+            if (member is { Role: Role.Moderator or Role.Administrator }) return true;
+        }
+
+        return false;
     }
 
 }

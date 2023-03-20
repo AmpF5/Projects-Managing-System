@@ -11,5 +11,5 @@ public interface IMemberService
     bool Update(MemberDto dto, int id);
     void RegisterMember(MemberDto dto);
     string GenerateJwt(LoginDto dto);
-    string GetJwt();
+    bool AuthorizeModerator(int projectId);
 }
