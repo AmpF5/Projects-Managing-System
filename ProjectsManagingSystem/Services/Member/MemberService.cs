@@ -18,14 +18,16 @@ public class MemberService : IMemberService
     private readonly IMapper _mapper;
     private readonly IPasswordHasher<Entities.Member> _passwordHasher;
     private readonly AuthenticationSettings _authenticationSettings;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public MemberService(ProjectSystemDbContext dbContext, IMapper mapper, IPasswordHasher<Entities.Member> passwordHasher, 
-        AuthenticationSettings authenticationSettings)
+        AuthenticationSettings authenticationSettings, IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
         _authenticationSettings = authenticationSettings;
+        _httpContextAccessor = httpContextAccessor;
     }
     public MemberResponseDto Create(MemberDto dto)
     {
@@ -117,6 +119,17 @@ public class MemberService : IMemberService
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
 
+    }
+
+    public string GetJwt()
+    {
+        var result = string.Empty;
+        // if (_httpContextAccessor.HttpContext != null)
+        // {
+        //     result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        // }
+
+        return result;
     }
 
 }

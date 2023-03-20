@@ -51,6 +51,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<ProjectSystemSeeder>();
     builder.Services.AddScoped<IPasswordHasher<Member>, PasswordHasher<Member>>();
     builder.Services.AddScoped<IValidator<MemberDto>, RegisterMemberDtoValidator>();
+    builder.Services.AddHttpContextAccessor();
 }
 
 var app = builder.Build();
