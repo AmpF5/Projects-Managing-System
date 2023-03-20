@@ -103,6 +103,29 @@ public class ProjectService : IProjectService
         return result;
     }
 
+    public IEnumerable<ProjectTaskResponseDto> GetMemberProjectTask(int id, int memberId)
+    {
+
+        var tasks = _dbContext.Projects
+            .Where(p => p.Id == id)
+            .SelectMany(p => p.Tasks)
+            .Where(t => t.MemberId == memberId);
+
+        if (tasks == null)
+        {
+            return new List<ProjectTaskResponseDto>();
+        }
+
+        var result = _mapper.Map<List<ProjectTaskResponseDto>>(tasks);
+
+
+
+
+        return result;
+    }
+
+
+
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
         var project = _dbContext.Projects
