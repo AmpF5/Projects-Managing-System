@@ -84,7 +84,6 @@ public class MemberService : IMemberService
     public string GenerateJwt(LoginDto dto)
     {
         var member = _dbContext.Members
-            .Include(u => u.Role)
             .FirstOrDefault(u => u.Email == dto.Email);
 
         if (member is null)
@@ -102,10 +101,7 @@ public class MemberService : IMemberService
         {
             new Claim(ClaimTypes.NameIdentifier, member.Id.ToString()),
             new Claim(ClaimTypes.Name, $"{member.Name} {member.Surname}"),
-            new Claim(ClaimTypes.Role, $"{member.Role.Name}"),
-
         };
-
 
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

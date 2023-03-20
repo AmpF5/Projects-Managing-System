@@ -1,4 +1,5 @@
 ﻿using AutoMapper.Execution;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ProjectsManagingSystem.Entities;
@@ -9,6 +10,8 @@ using ProjectsManagingSystem.Models.ProjectTask;
 using ProjectsManagingSystem.Services.Project;
 
 namespace ProjectsManagingSystem.Controllers;
+
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ProjectController : Controller
