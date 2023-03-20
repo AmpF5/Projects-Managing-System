@@ -68,7 +68,6 @@ public class ProjectController : Controller
 
         return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
     }
-    //TODO: change path
     [HttpPut("{projectId:int}/task/{taskId:int}/member/{memberId:int}")]
     public IActionResult AssignMemberToTask([FromRoute] int projectId,[FromRoute] int taskId,[FromRoute] int memberId)
     {
