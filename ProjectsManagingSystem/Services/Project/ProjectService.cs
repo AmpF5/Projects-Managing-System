@@ -7,6 +7,7 @@ using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Models.ProjectTask;
+using ProjectsManagingSystem.Services.Member;
 
 namespace ProjectsManagingSystem.Services.Project;
 
@@ -14,11 +15,13 @@ public class ProjectService : IProjectService
 {
     private readonly ProjectSystemDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IMemberService _memberService;
 
-    public ProjectService(ProjectSystemDbContext dbContext, IMapper mapper)
+    public ProjectService(ProjectSystemDbContext dbContext, IMapper mapper, IMemberService memberService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _memberService = memberService;
     }
     public ProjectResponseDto Create(ProjectDto dto)
     {
@@ -32,6 +35,9 @@ public class ProjectService : IProjectService
 
     public bool AddMemberToProject(int id, int memberId)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
+        
         var project = _dbContext
             .Projects
             .IncludeMembers()
@@ -90,6 +96,8 @@ public class ProjectService : IProjectService
 
     public IEnumerable<MemberResponseDto> GetMembers(int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return null;
+        
         var project = _dbContext.Projects
             .IncludeMembers()
             .FirstOrDefault(x => x.Id == id);
@@ -101,6 +109,8 @@ public class ProjectService : IProjectService
 
     public IEnumerable<ProjectTaskResponseDto> GetTasks(int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return null;
+
         var project = _dbContext
             .Projects
             .Include(t => t.Tasks).FirstOrDefault(x => x.Id == id);
@@ -114,6 +124,7 @@ public class ProjectService : IProjectService
 
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
+        
         var project = _dbContext.Projects
             .IncludeMembers()
             .Include(r => r.Tasks)
@@ -135,6 +146,8 @@ public class ProjectService : IProjectService
 
     public bool Delete(int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
         
         if (project is null) return false;
@@ -145,6 +158,8 @@ public class ProjectService : IProjectService
 
     public bool Update(ProjectDto dto, int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
         
         if (project is null) return false;
