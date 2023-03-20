@@ -25,36 +25,36 @@ namespace ProjectsManagingSystem
                     _dBContext.SaveChanges();
                 }
 
-                if (!_dBContext.Roles.Any())
-                {
-                    var roles = GetRoles();
-                    _dBContext.Roles.AddRange(roles);
-                    _dBContext.SaveChanges();
-                }
+                // if (!_dBContext.Roles.Any())
+                // {
+                //     var roles = GetRoles();
+                //     _dBContext.Roles.AddRange(roles);
+                //     _dBContext.SaveChanges();
+                // }
                 
             }
             
         }
 
-        private IEnumerable<Role> GetRoles()
-        {
-            var roles = new List<Role>()
-            {
-                new Role()
-                {
-                    Name = "User"
-                },
-                new Role()
-                {
-                    Name = "Moderator"
-                },
-                new Role()
-                {
-                    Name = "Administrator"
-                }
-            };
-            return roles;
-        }
+        // private IEnumerable<Role> GetRoles()
+        // {
+        //     var roles = new List<Role>()
+        //     {
+        //         new Role()
+        //         {
+        //             Name = "User"
+        //         },
+        //         new Role()
+        //         {
+        //             Name = "Moderator"
+        //         },
+        //         new Role()
+        //         {
+        //             Name = "Administrator"
+        //         }
+        //     };
+        //     return roles;
+        // }
         private IEnumerable<Project> GetProjects()
         {
             var projects = new List<Project>()
@@ -92,10 +92,10 @@ namespace ProjectsManagingSystem
 
 
                     },
-                    Members = new List<Member>()
-                    {
-
-                    },
+                    // Members = new List<Member>()
+                    // {
+                    //
+                    // },
                 },
 
                 new Project()
@@ -129,24 +129,24 @@ namespace ProjectsManagingSystem
                         }
 
                     },
-                    Members = new List<Member>()
-                    {
-                        new Member()
-                        {
-                            Name = "Krzysiek",
-                            Surname = "ESSa",
-                            Email = "Krzysiek@gmail.com",
-                            Password = "xq123t",
-                        },
-                        new Member()
-                        {
-                            Name = "Bob",
-                            Surname = "Budowniczy",
-                            Email = "BobTheBuilder@gmail.com",
-                            Password = "asdj213"
-                            
-                        }
-                    },
+                    // MemberProjects = new List<MemberProject>()
+                    // {
+                    //     new Member()
+                    //     {
+                    //         Name = "Krzysiek",
+                    //         Surname = "ESSa",
+                    //         Email = "Krzysiek@gmail.com",
+                    //         Password = "xq123t",
+                    //     },
+                    //     new Member()
+                    //     {
+                    //         Name = "Bob",
+                    //         Surname = "Budowniczy",
+                    //         Email = "BobTheBuilder@gmail.com",
+                    //         Password = "asdj213"
+                    //         
+                    //     }
+                    // },
                 },
             };
              

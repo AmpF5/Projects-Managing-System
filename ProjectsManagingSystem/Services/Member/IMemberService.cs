@@ -9,4 +9,7 @@ public interface IMemberService
     MemberResponseDto GetById(int id);
     bool Delete(int id);
     bool Update(MemberDto dto, int id);
+    void RegisterMember(MemberDto dto);
+    string GenerateJwt(LoginDto dto);
+    bool AuthorizeModerator(int projectId);
 }

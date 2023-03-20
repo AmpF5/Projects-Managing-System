@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
+using ProjectsManagingSystem.ExtensionMethods;
 using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Models.ProjectTask;
+using ProjectsManagingSystem.Services.Member;
 
 namespace ProjectsManagingSystem.Services.Project;
 
@@ -13,11 +15,13 @@ public class ProjectService : IProjectService
 {
     private readonly ProjectSystemDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly IMemberService _memberService;
 
-    public ProjectService(ProjectSystemDbContext dbContext, IMapper mapper)
+    public ProjectService(ProjectSystemDbContext dbContext, IMapper mapper, IMemberService memberService)
     {
         _dbContext = dbContext;
         _mapper = mapper;
+        _memberService = memberService;
     }
     public ProjectResponseDto Create(ProjectDto dto)
     {
@@ -31,20 +35,29 @@ public class ProjectService : IProjectService
 
     public bool AddMemberToProject(int id, int memberId)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
+        
         var project = _dbContext
             .Projects
-            .Include(m => m.Members)
+            .IncludeMembers()
             .FirstOrDefault(x => x.Id == id);
 
         var member = _dbContext
             .Members
-            .Include(m => m.Projects)
+            .IncludeProjects()
             .FirstOrDefault(x => x.Id == memberId);
 
         if (project == null || member == null) { return false; }
-        
-        member.Projects.Add(project);
-        project.Members.Add(member);
+        project.MemberProjects.Add(
+            new MemberProject()
+            {
+                MemberId = memberId,
+                ProjectId = id,
+                Role = Role.Member
+            });
+        // member.Projects.Add(project);
+        // project.Members.Add(member);
 
         _dbContext.SaveChanges();
 
@@ -56,7 +69,7 @@ public class ProjectService : IProjectService
     public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
     {
         dto.ProjectId = id;
-        dto.MemberId = 1;
+        // dto.MemberId = 1;
 
         var task = _mapper.Map<Entities.ProjectTask>(dto);
 
@@ -73,8 +86,8 @@ public class ProjectService : IProjectService
     public ProjectResponseDto GetById(int id)
     {
         var project = _dbContext.Projects
+            .IncludeMembers()
             .Include(r => r.Tasks)
-            .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == id);
         
         var result = _mapper.Map<ProjectResponseDto>(project);
@@ -83,15 +96,21 @@ public class ProjectService : IProjectService
 
     public IEnumerable<MemberResponseDto> GetMembers(int id)
     {
-        var project = _dbContext.Projects.Include(m => m.Members).FirstOrDefault(x => x.Id == id);
-        var members = project?.Members;
+        if (!_memberService.AuthorizeModerator(id)) return null;
         
+        var project = _dbContext.Projects
+            .IncludeMembers()
+            .FirstOrDefault(x => x.Id == id);
+
+        var members = project.MemberProjects.Select(x => x.Member).ToList();
         var result = _mapper.Map<List<MemberResponseDto>>(members);
         return result;
     }
 
     public IEnumerable<ProjectTaskResponseDto> GetTasks(int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return null;
+
         var project = _dbContext
             .Projects
             .Include(t => t.Tasks).FirstOrDefault(x => x.Id == id);
@@ -128,18 +147,20 @@ public class ProjectService : IProjectService
 
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
+        
         var project = _dbContext.Projects
+            .IncludeMembers()
             .Include(r => r.Tasks)
-            .Include(m => m.Members)
             .FirstOrDefault(x => x.Id == projectId);
+        if (project is null) return false;
         
         var task = project.Tasks.FirstOrDefault(t => t.Id == taskId);
         if (task is null) return false;
 
-        var member = project.Members.FirstOrDefault(m => m.Id == memberId);
+        var member = project.MemberProjects.FirstOrDefault(m => m.MemberId == memberId);
         if (member is null) return false;
 
-        task.MemberId = member.Id;
+        task.MemberId = memberId;
 
         var response = _mapper.Map<ProjectTaskResponseDto>(task);
         _dbContext.SaveChanges();
@@ -148,6 +169,8 @@ public class ProjectService : IProjectService
 
     public bool Delete(int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
         
         if (project is null) return false;
@@ -158,6 +181,8 @@ public class ProjectService : IProjectService
 
     public bool Update(ProjectDto dto, int id)
     {
+        if (!_memberService.AuthorizeModerator(id)) return false;
+
         var project = _dbContext.Projects.FirstOrDefault(i => i.Id == id);
         
         if (project is null) return false;

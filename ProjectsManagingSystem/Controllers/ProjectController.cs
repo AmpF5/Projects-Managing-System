@@ -1,4 +1,5 @@
 ﻿using AutoMapper.Execution;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ProjectsManagingSystem.Entities;
@@ -9,6 +10,8 @@ using ProjectsManagingSystem.Models.ProjectTask;
 using ProjectsManagingSystem.Services.Project;
 
 namespace ProjectsManagingSystem.Controllers;
+
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class ProjectController : Controller
@@ -76,8 +79,7 @@ public class ProjectController : Controller
 
         return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
     }
-
-    [HttpPut("{projectId:int}/task/{taskId:int}/{memberId:int}")]
+    [HttpPut("{projectId:int}/task/{taskId:int}/member/{memberId:int}")]
     public IActionResult AssignMemberToTask([FromRoute] int projectId,[FromRoute] int taskId,[FromRoute] int memberId)
     {
         var isTaskValid = _projectService.AssignMemberToTask(projectId, taskId, memberId);

@@ -1,7 +1,8 @@
 ﻿namespace ProjectsManagingSystem.Entities;
 
-public class Role
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
+public enum Role
+{ 
+    Administrator = 1,
+    Moderator = 2,
+    Member = 3,
 }
