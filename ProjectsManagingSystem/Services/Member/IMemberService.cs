@@ -12,4 +12,5 @@ public interface IMemberService
     string GenerateJwt(LoginDto dto);
     bool AuthorizeModerator(int projectId);
     bool AuthorizeMemberInProject(int projectId);
+    int GetMemberIdFromJwt();
 }

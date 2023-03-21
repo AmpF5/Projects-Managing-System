@@ -153,4 +153,13 @@ public class MemberService : IMemberService
         var member = project.MemberProjects.FirstOrDefault(x => x.MemberId == memberId);
         return member is not null;
     }
+
+    public int GetMemberIdFromJwt()
+    {
+        if (_httpContextAccessor.HttpContext == null) return 0;
+        var jwtId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var memberId = int.Parse(jwtId);
+        return memberId;
+
+    }
 }
