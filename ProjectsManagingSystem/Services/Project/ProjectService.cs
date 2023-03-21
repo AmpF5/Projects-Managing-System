@@ -24,10 +24,20 @@ public class ProjectService : IProjectService
     public ProjectResponseDto Create(ProjectDto dto)
     {
         var project = _mapper.Map<Entities.Project>(dto);
-        var projectResponse = _mapper.Map<ProjectResponseDto>(project);
+        
+        var memberId = _memberService.GetMemberIdFromJwt();
         
         _dbContext.Projects.Add(project);
         _dbContext.SaveChanges();
+        var member = _dbContext.MemberProjects.Add(
+            new MemberProject()
+            {
+                MemberId = memberId,
+                ProjectId = project.Id,
+                Role = Role.Moderator
+            });
+        _dbContext.SaveChanges();
+        var projectResponse = _mapper.Map<ProjectResponseDto>(project);
         return projectResponse;
     }
 
@@ -46,6 +56,7 @@ public class ProjectService : IProjectService
             .FirstOrDefault(x => x.Id == memberId);
 
         if (project == null || member == null) { return false; }
+        
         project.MemberProjects.Add(
             new MemberProject()
             {
