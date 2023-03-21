@@ -120,21 +120,37 @@ public class MemberService : IMemberService
 
     public bool AuthorizeModerator(int projectId)
     {
-        var result = string.Empty;
-        if (_httpContextAccessor.HttpContext != null)
-        {
-            result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var id = int.Parse(result);
-            
-            var project = _dbContext
-                .Projects
-                .IncludeMembers()
-                .FirstOrDefault(x => x.Id == projectId);
-            if (project is null) return false;
-            
-            var member = project.MemberProjects.FirstOrDefault(x => x.Id == id);
-            if (member is { Role: Role.Moderator or Role.Administrator }) return true;
-        }
-        return false;
+        if (_httpContextAccessor.HttpContext == null) return false;
+        
+        var result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var id = int.Parse(result);
+
+        var project = _dbContext
+            .Projects
+            .IncludeMembers()
+            .FirstOrDefault(x => x.Id == projectId);
+        if (project is null) return false;
+
+        var member = project.MemberProjects.FirstOrDefault(x => x.MemberId == id);
+        if (member is null) return false;
+        member.Role = Role.Moderator;
+        return member is { Role: Role.Moderator or Role.Administrator };
+    }
+
+    public bool AuthorizeMemberInProject(int projectId)
+    {
+        if (_httpContextAccessor.HttpContext == null) return false;
+
+        var jwtId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var memberId = int.Parse(jwtId);
+
+        var project = _dbContext
+            .Projects
+            .IncludeMembers()
+            .FirstOrDefault(x => x.Id == projectId);
+        if (project is null) return false;
+
+        var member = project.MemberProjects.FirstOrDefault(x => x.MemberId == memberId);
+        return member is not null;
     }
 }

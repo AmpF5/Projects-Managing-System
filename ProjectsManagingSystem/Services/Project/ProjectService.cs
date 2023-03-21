@@ -58,9 +58,10 @@ public class ProjectService : IProjectService
         return true;
     }
 
-
     public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
     {
+        if (!_memberService.AuthorizeMemberInProject(id)) return null;
+        
         dto.ProjectId = id;
         var task = _mapper.Map<Entities.ProjectTask>(dto);
         var taskResponse = _mapper.Map<ProjectTaskResponseDto>(task);
@@ -72,6 +73,8 @@ public class ProjectService : IProjectService
 
     public ProjectResponseDto GetById(int id)
     {
+        if (!_memberService.AuthorizeMemberInProject(id)) return null;
+
         var project = _dbContext.Projects
             .IncludeMembers()
             .Include(r => r.Tasks)
@@ -83,7 +86,7 @@ public class ProjectService : IProjectService
 
     public IEnumerable<MemberResponseDto> GetMembers(int id)
     {
-        if (!_memberService.AuthorizeModerator(id)) return null;
+        if (!_memberService.AuthorizeMemberInProject(id)) return null;
         
         var project = _dbContext.Projects
             .IncludeMembers()
@@ -96,7 +99,7 @@ public class ProjectService : IProjectService
 
     public IEnumerable<ProjectTaskResponseDto> GetTasks(int id)
     {
-        if (!_memberService.AuthorizeModerator(id)) return null;
+        if (!_memberService.AuthorizeMemberInProject(id)) return null;
 
         var project = _dbContext
             .Projects
@@ -111,6 +114,7 @@ public class ProjectService : IProjectService
 
     public IEnumerable<ProjectTaskResponseDto> GetMemberProjectTask(int id, int memberId)
     {
+        if (!_memberService.AuthorizeMemberInProject(id)) return null;
 
         var tasks = _dbContext.Projects
             .Where(p => p.Id == id)
@@ -128,7 +132,8 @@ public class ProjectService : IProjectService
 
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
-        
+        if (!_memberService.AuthorizeMemberInProject(projectId)) return false;
+
         var project = _dbContext.Projects
             .IncludeMembers()
             .Include(r => r.Tasks)
