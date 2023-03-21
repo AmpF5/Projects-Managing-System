@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ProjectsManagingSystem.Models.Member;
+﻿namespace ProjectsManagingSystem.Models.Member;
 
 public class MemberDto
 {
- 
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Email { get; set; }

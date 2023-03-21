@@ -1,7 +1,4 @@
-﻿using System.Data;
-using Microsoft.VisualBasic;
-
-namespace ProjectsManagingSystem.Entities
+﻿namespace ProjectsManagingSystem.Entities
 {
     public class ProjectTask
     {
@@ -14,7 +11,6 @@ namespace ProjectsManagingSystem.Entities
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
         public int? MemberId{ get; set; }
         public Member Member { get; set; }
-        //public Member Creator { get; set; }
         public State State { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.ExtensionMethods;
-using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Models.ProjectTask;
@@ -26,17 +24,16 @@ public class ProjectService : IProjectService
     public ProjectResponseDto Create(ProjectDto dto)
     {
         var project = _mapper.Map<Entities.Project>(dto);
+        var projectResponse = _mapper.Map<ProjectResponseDto>(project);
         
         _dbContext.Projects.Add(project);
         _dbContext.SaveChanges();
-        var projectResponse = _mapper.Map<ProjectResponseDto>(project);
         return projectResponse;
     }
 
     public bool AddMemberToProject(int id, int memberId)
     {
         if (!_memberService.AuthorizeModerator(id)) return false;
-
         
         var project = _dbContext
             .Projects
@@ -56,32 +53,22 @@ public class ProjectService : IProjectService
                 ProjectId = id,
                 Role = Role.Member
             });
-        // member.Projects.Add(project);
-        // project.Members.Add(member);
 
         _dbContext.SaveChanges();
-
         return true;
-
     }
 
 
     public ProjectTaskResponseDto AddTaskToProject(int id, ProjectTaskDto dto)
     {
         dto.ProjectId = id;
-        // dto.MemberId = 1;
-
         var task = _mapper.Map<Entities.ProjectTask>(dto);
+        var taskResponse = _mapper.Map<ProjectTaskResponseDto>(task);
 
         _dbContext.ProjectTasks.Add(task);
         _dbContext.SaveChanges();
-
-        var taskResponse = _mapper.Map<ProjectTaskResponseDto>(task);
         return taskResponse;
-
     }
-
-
 
     public ProjectResponseDto GetById(int id)
     {
@@ -136,14 +123,8 @@ public class ProjectService : IProjectService
         }
 
         var result = _mapper.Map<List<ProjectTaskResponseDto>>(tasks);
-
-
-
-
         return result;
     }
-
-
 
     public bool AssignMemberToTask(int projectId, int taskId, int memberId)
     {
@@ -192,6 +173,5 @@ public class ProjectService : IProjectService
 
         _dbContext.SaveChanges();
         return true;
-
     }
 }

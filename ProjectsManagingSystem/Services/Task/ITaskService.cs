@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProjectsManagingSystem.Entities;
-using ProjectsManagingSystem.Models;
-using ProjectsManagingSystem.Models.ProjectTask;
+﻿using ProjectsManagingSystem.Models.ProjectTask;
 
 namespace ProjectsManagingSystem.Services.Task
 {

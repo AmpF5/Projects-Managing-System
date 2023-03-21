@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Services.Member;
 
@@ -41,7 +40,6 @@ public class MemberController : Controller
     public IActionResult UpdateMember([FromBody] MemberDto request, [FromRoute] int id)
     {
         if (!ModelState.IsValid) return BadRequest();
-
         var member = _memberService.Update(request, id);
         return member ? Ok() : NotFound();
     }
@@ -56,9 +54,7 @@ public class MemberController : Controller
     [HttpPost("login")]
     public ActionResult Login([FromBody] LoginDto dto)
     {
-        string token = _memberService.GenerateJwt(dto);
+        var  token = _memberService.GenerateJwt(dto);
         return Ok(token);
-
     }
-
 }

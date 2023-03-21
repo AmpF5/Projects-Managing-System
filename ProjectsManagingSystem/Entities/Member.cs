@@ -9,8 +9,5 @@
         public string Password { get; set; }
         public List<MemberProject> MemberProjects { get; set; }
         public List<ProjectTask> ProjectTasks { get; set; }
-        //public Role Role { get; set; }
-
-
     }
 }

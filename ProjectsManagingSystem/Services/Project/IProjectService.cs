@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProjectsManagingSystem.Models;
-using ProjectsManagingSystem.Models.Member;
+﻿using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Models.Project;
 using ProjectsManagingSystem.Models.ProjectTask;
 
