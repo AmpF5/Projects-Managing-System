@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectsManagingSystem.Entities;
-using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.Member;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -33,9 +31,9 @@ public class MemberService : IMemberService
     public MemberResponseDto Create(MemberDto dto)
     {
         var member = _mapper.Map<Entities.Member>(dto);
+        
         _dbContext.Members.Add(member);
         _dbContext.SaveChanges();
-        
         return _mapper.Map<MemberResponseDto>(member);
     }
 
@@ -43,13 +41,13 @@ public class MemberService : IMemberService
     {
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         return _mapper.Map<MemberResponseDto>(member);
-        
     }
 
     public bool Delete(int id)
     {
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         if (member is null) return false;
+        
         _dbContext.Members.Remove(member);
         _dbContext.SaveChanges();
         return true;
@@ -78,8 +76,8 @@ public class MemberService : IMemberService
 
         };
         var hashedPassword = _passwordHasher.HashPassword(newMember, dto.Password);
-
         newMember.Password = hashedPassword;
+        
         _dbContext.Members.Add(newMember);
         _dbContext.SaveChanges();
     }
@@ -106,7 +104,6 @@ public class MemberService : IMemberService
             new Claim(ClaimTypes.Name, $"{member.Name} {member.Surname}"),
         };
 
-
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
@@ -119,7 +116,6 @@ public class MemberService : IMemberService
 
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
-
     }
 
     public bool AuthorizeModerator(int projectId)
@@ -134,13 +130,11 @@ public class MemberService : IMemberService
                 .Projects
                 .IncludeMembers()
                 .FirstOrDefault(x => x.Id == projectId);
-
+            if (project is null) return false;
+            
             var member = project.MemberProjects.FirstOrDefault(x => x.Id == id);
-
             if (member is { Role: Role.Moderator or Role.Administrator }) return true;
         }
-
         return false;
     }
-
 }

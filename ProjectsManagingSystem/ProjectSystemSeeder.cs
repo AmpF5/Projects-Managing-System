@@ -24,37 +24,9 @@ namespace ProjectsManagingSystem
                     _dBContext.Projects.AddRange(projects);
                     _dBContext.SaveChanges();
                 }
-
-                // if (!_dBContext.Roles.Any())
-                // {
-                //     var roles = GetRoles();
-                //     _dBContext.Roles.AddRange(roles);
-                //     _dBContext.SaveChanges();
-                // }
-                
             }
             
         }
-
-        // private IEnumerable<Role> GetRoles()
-        // {
-        //     var roles = new List<Role>()
-        //     {
-        //         new Role()
-        //         {
-        //             Name = "User"
-        //         },
-        //         new Role()
-        //         {
-        //             Name = "Moderator"
-        //         },
-        //         new Role()
-        //         {
-        //             Name = "Administrator"
-        //         }
-        //     };
-        //     return roles;
-        // }
         private IEnumerable<Project> GetProjects()
         {
             var projects = new List<Project>()
@@ -77,7 +49,6 @@ namespace ProjectsManagingSystem
                             MemberId = 1
 
                         },
-
                         new ProjectTask()
                         {
                             Name = "Configure DbContexClass",
@@ -86,18 +57,9 @@ namespace ProjectsManagingSystem
                             Deadline = new DateTime(2023, 04,30),
                             State = State.ToDo,
                             MemberId = 2
-
-
                         },
-
-
                     },
-                    // Members = new List<Member>()
-                    // {
-                    //
-                    // },
                 },
-
                 new Project()
                 {
                     Name = "Project API",
@@ -129,29 +91,9 @@ namespace ProjectsManagingSystem
                         }
 
                     },
-                    // MemberProjects = new List<MemberProject>()
-                    // {
-                    //     new Member()
-                    //     {
-                    //         Name = "Krzysiek",
-                    //         Surname = "ESSa",
-                    //         Email = "Krzysiek@gmail.com",
-                    //         Password = "xq123t",
-                    //     },
-                    //     new Member()
-                    //     {
-                    //         Name = "Bob",
-                    //         Surname = "Budowniczy",
-                    //         Email = "BobTheBuilder@gmail.com",
-                    //         Password = "asdj213"
-                    //         
-                    //     }
-                    // },
                 },
             };
-             
             return projects;
         }
-
-    }//
+    }
 }

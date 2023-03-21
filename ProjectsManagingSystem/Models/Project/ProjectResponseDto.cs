@@ -12,5 +12,4 @@ public class ProjectResponseDto
     public List<ProjectTaskResponseDto> Tasks { get; set; }
     public List<MemberResponseDto> Members { get; set; }
     public DateTime DateOfCreation { get; set; }
-    
 }

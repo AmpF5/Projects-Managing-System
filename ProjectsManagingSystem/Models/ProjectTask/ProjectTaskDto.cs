@@ -15,5 +15,4 @@ public class ProjectTaskDto
     public int? MemberId{ get; set; }
     public int ProjectId { get; set; }
     public State State { get;} = State.ToDo;
-
 }

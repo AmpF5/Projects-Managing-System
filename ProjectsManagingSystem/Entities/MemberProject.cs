@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ProjectsManagingSystem.Entities;
+﻿namespace ProjectsManagingSystem.Entities;
 public class MemberProject
 {
     public int Id { get; set; }

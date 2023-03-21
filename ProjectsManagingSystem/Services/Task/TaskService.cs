@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProjectsManagingSystem.Entities;
-using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.ProjectTask;
 
 namespace ProjectsManagingSystem.Services.Task
 {
-   
-
     public class TaskService : ITaskService
     {
         private readonly ProjectSystemDbContext _dbContext;
@@ -20,7 +15,6 @@ namespace ProjectsManagingSystem.Services.Task
             _mapper = mapper;
         }
 
-
         public ProjectTaskResponseDto GetById(int id)
         {
             var task = _dbContext.ProjectTasks
@@ -30,7 +24,6 @@ namespace ProjectsManagingSystem.Services.Task
 
             return result;
         }
-
 
         public  IEnumerable<ProjectTaskResponseDto> GetAll()
         {
@@ -42,7 +35,6 @@ namespace ProjectsManagingSystem.Services.Task
 
             return result;
         }
-
 
         public bool Delete(int id)
         {
@@ -69,10 +61,8 @@ namespace ProjectsManagingSystem.Services.Task
             return task.Id;
         }
 
-
         public bool Update(ProjectTaskDto dto, int id)
         {
-
             var task = _dbContext
                 .ProjectTasks
                 .FirstOrDefault(e => e.Id == id);
@@ -83,10 +73,7 @@ namespace ProjectsManagingSystem.Services.Task
             task.Description = dto.Description;
 
             _dbContext.SaveChanges();
-
             return true;
         }
-
-
     }
 }

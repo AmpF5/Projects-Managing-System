@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectsManagingSystem.Entities;
-using ProjectsManagingSystem.Models;
 using ProjectsManagingSystem.Models.ProjectTask;
 using ProjectsManagingSystem.Services.Task;
 
@@ -17,12 +15,10 @@ namespace ProjectsManagingSystem.Controllers
             _taskService = taskService;
         }
 
-
         [HttpGet("{id:int}")]
         public IActionResult GetTaskById(int id)
         {
             var task = _taskService.GetById(id);
-
             return Ok(task);
         }
 
@@ -36,15 +32,11 @@ namespace ProjectsManagingSystem.Controllers
         [HttpPost]
         public IActionResult CreateTask([FromBody] ProjectTaskDto dto)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
             var id = _taskService.Create(dto);
-
-
             return Created($"{id}", null);
         }
 
@@ -52,15 +44,12 @@ namespace ProjectsManagingSystem.Controllers
         public IActionResult DeleteTask([FromRoute] int id)
         {
             var isDeleted = _taskService.Delete(id);
-
             if (isDeleted)
             {
                 return NoContent(); 
             }
-
             return NotFound();
         }
-
 
         [HttpPut("{id:int}")]
         public IActionResult UpdateTask([FromBody] ProjectTaskDto dto, [FromRoute] int id)
@@ -70,17 +59,11 @@ namespace ProjectsManagingSystem.Controllers
                 return BadRequest();
             }
             var result = _taskService.Update(dto, id);
-
             if (!result)
             {
                 return NotFound();
             }
-
             return Ok();
         }
-
-
-
-
     }
 }
