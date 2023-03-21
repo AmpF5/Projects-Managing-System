@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProjectsManagingSystem.Entities;
 using ProjectsManagingSystem.Models.ProjectTask;
+using ProjectsManagingSystem.Services.Member;
 
 namespace ProjectsManagingSystem.Services.Task
 {
@@ -8,15 +9,18 @@ namespace ProjectsManagingSystem.Services.Task
     {
         private readonly ProjectSystemDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IMemberService _memberService;
 
-        public TaskService(ProjectSystemDbContext dbContext, IMapper mapper)
+        public TaskService(ProjectSystemDbContext dbContext, IMapper mapper, IMemberService memberService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _memberService = memberService;
         }
 
         public ProjectTaskResponseDto GetById(int id)
         {
+            if (!_memberService.AuthorizeMemberInProject(id)) return null;
             var task = _dbContext.ProjectTasks
                 .FirstOrDefault(x => x.Id == id);
 
@@ -38,6 +42,8 @@ namespace ProjectsManagingSystem.Services.Task
 
         public bool Delete(int id)
         {
+            if (!_memberService.AuthorizeModerator(id)) return false;
+
             var task = _dbContext
                 .ProjectTasks
                 .FirstOrDefault(e => e.Id == id);
@@ -52,6 +58,7 @@ namespace ProjectsManagingSystem.Services.Task
 
         public int Create(ProjectTaskDto dto)
         {
+
             dto.MemberId = 1;
 
             var task = _mapper.Map<ProjectTask>(dto);
