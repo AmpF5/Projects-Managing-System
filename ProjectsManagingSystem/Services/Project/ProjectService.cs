@@ -56,7 +56,13 @@ public class ProjectService : IProjectService
             .FirstOrDefault(x => x.Id == memberId);
 
         if (project == null || member == null) { return false; }
-        
+
+
+        bool ifExistsInProject  = _dbContext.MemberProjects
+            .Any(mp => mp.MemberId == memberId && mp.ProjectId == id);
+
+        if (ifExistsInProject) { return false; }
+
         project.MemberProjects.Add(
             new MemberProject()
             {
