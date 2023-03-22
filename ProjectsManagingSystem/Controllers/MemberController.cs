@@ -17,6 +17,14 @@ public class MemberController : Controller
         _memberService = memberService;
     }
 
+    [HttpPost]
+    public IActionResult CreateMember([FromBody] MemberDto request)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var member = _memberService.Create(request);
+        return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
+    }
+
     [HttpGet("{id:int}")]
     public IActionResult GetMember([FromRoute] int id)
     {

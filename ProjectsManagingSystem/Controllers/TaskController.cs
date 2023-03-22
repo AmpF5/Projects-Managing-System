@@ -29,6 +29,17 @@ namespace ProjectsManagingSystem.Controllers
             return Ok(tasks);
         }
 
+        [HttpPost]
+        public IActionResult CreateTask([FromBody] ProjectTaskDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var id = _taskService.Create(dto);
+            return Created($"{id}", null);
+        }
+
         [HttpDelete("{id:int}")]
         public IActionResult DeleteTask([FromRoute] int id)
         {
