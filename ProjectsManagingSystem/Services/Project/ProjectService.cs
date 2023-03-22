@@ -97,7 +97,10 @@ public class ProjectService : IProjectService
             .Include(r => r.Tasks)
             .FirstOrDefault(x => x.Id == id);
         
+        var members = project.MemberProjects.Select(x => x.Member);
+        var memberDto = _mapper.Map<List<MemberResponseDto>>(members);
         var result = _mapper.Map<ProjectResponseDto>(project);
+        result.Members = memberDto;
         return result;
     }
 
