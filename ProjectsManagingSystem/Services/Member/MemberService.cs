@@ -8,6 +8,8 @@ using System.Security.Claims;
 using System.Text;
 using ProjectsManagingSystem.Exceptions;
 using ProjectsManagingSystem.ExtensionMethods;
+using AutoMapper.Execution;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectsManagingSystem.Services.Member;
 
@@ -39,12 +41,24 @@ public class MemberService : IMemberService
 
     public MemberResponseDto GetById(int id)
     {
+        var loggedMember = GetMemberIdFromJwt();
+
+
+        var hasCommonProject = _dbContext.MemberProjects
+            .Any(mp => mp.MemberId == loggedMember && _dbContext.MemberProjects
+                .Any(mp2 => mp2.MemberId == id && mp2.ProjectId == mp.ProjectId));
+
+        if (!hasCommonProject) return null;
+
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         return _mapper.Map<MemberResponseDto>(member);
     }
 
     public bool Delete(int id)
     {
+        var loggedMember = GetMemberIdFromJwt();
+        if (id != loggedMember) return false;
+
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         if (member is null) return false;
         
@@ -55,6 +69,9 @@ public class MemberService : IMemberService
 
     public bool Update(MemberDto dto, int id)
     {
+        var loggedMember = GetMemberIdFromJwt();
+        if (id != loggedMember) return false;
+
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         if (member is null) return false;
         member.Name = dto.Name;

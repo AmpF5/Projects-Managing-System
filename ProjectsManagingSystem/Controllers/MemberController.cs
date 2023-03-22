@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectsManagingSystem.Models.Member;
 using ProjectsManagingSystem.Services.Member;
 
 namespace ProjectsManagingSystem.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class MemberController : Controller
@@ -44,6 +46,7 @@ public class MemberController : Controller
         return member ? Ok() : NotFound();
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public ActionResult RegisterMember([FromBody] MemberDto dto)
     {
@@ -51,6 +54,7 @@ public class MemberController : Controller
         return Ok();
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public ActionResult Login([FromBody] LoginDto dto)
     {
