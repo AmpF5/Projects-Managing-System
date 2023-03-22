@@ -43,19 +43,12 @@ public class MemberService : IMemberService
     {
         var loggedMember = GetMemberIdFromJwt();
 
-        
 
-        var member1 = _dbContext.MemberProjects
-            .Where(mp => mp.MemberId == loggedMember)
-            .Select(mp => mp.ProjectId)
-            .ToList();
+        var hasCommonProject = _dbContext.MemberProjects
+            .Any(mp => mp.MemberId == loggedMember && _dbContext.MemberProjects
+                .Any(mp2 => mp2.MemberId == id && mp2.ProjectId == mp.ProjectId));
 
-        var member2 = _dbContext.MemberProjects
-            .Where(mp => mp.MemberId == id)
-            .Select(mp => mp.ProjectId)
-            .ToList();
-
-        if (!member1.Intersect(member2).Any()) return null;
+        if (!hasCommonProject) return null;
 
         var member = _dbContext.Members.FirstOrDefault(i => i.Id == id);
         return _mapper.Map<MemberResponseDto>(member);
