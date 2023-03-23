@@ -6,6 +6,8 @@ info:
     To be able to perfom most of actions user need to register.
     After registration user need to login in, then special jwt will be generated.
     Postman is highly recommend, using it you can provide jwt in `Header > Add Key:Authorization > Value:Bearer{generatedJwt}`
+    
+    _Database used in project was created locally - to properly use whole API you need to provide your own connection string_
   
   version: '1.0'
   
@@ -15,7 +17,7 @@ tags:
   - name: Project
     description: Project actions, most of them require user to be in project or to be a moderator of project.
   - name: Task
-    description: Task actions require user to be in specific project or to be a moderator of this project.
+    description: Most of task actions are easier way to test task in project.
 
 paths:
   /Member:
