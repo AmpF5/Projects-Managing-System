@@ -15,10 +15,10 @@ namespace ProjectsManagingSystem.Controllers
             _taskService = taskService;
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetTaskById(int id)
+        [HttpGet("{taskId:int}")]
+        public IActionResult GetTaskById(int taskId)
         {
-            var task = _taskService.GetById(id);
+            var task = _taskService.GetById(taskId);
             return Ok(task);
         }
 
@@ -40,10 +40,10 @@ namespace ProjectsManagingSystem.Controllers
             return Created($"{id}", null);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult DeleteTask([FromRoute] int id)
+        [HttpDelete("{taskId:int}")]
+        public IActionResult DeleteTask([FromRoute] int taskId)
         {
-            var isDeleted = _taskService.Delete(id);
+            var isDeleted = _taskService.Delete(taskId);
             if (isDeleted)
             {
                 return NoContent(); 
@@ -51,14 +51,14 @@ namespace ProjectsManagingSystem.Controllers
             return NotFound();
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult UpdateTask([FromBody] ProjectTaskDto dto, [FromRoute] int id)
+        [HttpPut("{taskId:int}")]
+        public IActionResult UpdateTask([FromBody] ProjectTaskDto dto, [FromRoute] int taskId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var result = _taskService.Update(dto, id);
+            var result = _taskService.Update(dto, taskId);
             if (!result)
             {
                 return NotFound();

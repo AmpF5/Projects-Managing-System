@@ -28,38 +28,38 @@ public class ProjectController : Controller
         return CreatedAtAction(nameof(GetProject), new { id = project.Id }, project);
     }
 
-    [HttpPost("{id:int}/task")]
-    public ActionResult AddTaskToProject([FromRoute] int id, [FromBody] ProjectTaskDto dto )
+    [HttpPost("{projectId:int}/task")]
+    public ActionResult AddTaskToProject([FromRoute] int projectId, [FromBody] ProjectTaskDto dto )
     {
-        var task = _projectService.AddTaskToProject(id, dto);
+        var task = _projectService.AddTaskToProject(projectId, dto);
         return CreatedAtAction(nameof(GetProject), new { id = task.Id }, task);
     }
 
-    [HttpGet("{id:int}")]
-    public IActionResult GetProject(int id)
+    [HttpGet("{projectId:int}")]
+    public IActionResult GetProject(int projectId)
     {
-        var project = _projectService.GetById(id);
+        var project = _projectService.GetById(projectId);
         return Ok(project);
     }
 
-    [HttpGet("{id:int}/members")]
-    public ActionResult<IEnumerable<MemberResponseDto>> GetMembers(int id)
+    [HttpGet("{projectId:int}/members")]
+    public ActionResult<IEnumerable<MemberResponseDto>> GetMembers(int projectId)
     {
-        var members = _projectService.GetMembers(id);
+        var members = _projectService.GetMembers(projectId);
         return members.IsNullOrEmpty() ? NoContent() : Ok(members);
     }
 
-    [HttpGet("{id:int}/member/{memberId}/tasks")]
-    public ActionResult<IEnumerable<MemberResponseDto>> GetMemberProjectTask(int id, int memberId)
+    [HttpGet("{projectId:int}/member/{memberId:int}/tasks")]
+    public ActionResult<IEnumerable<MemberResponseDto>> GetMemberProjectTask(int projectId, int memberId)
     {
-        var members = _projectService.GetMemberProjectTask(id,memberId);
+        var members = _projectService.GetMemberProjectTask(projectId,memberId);
         return members.IsNullOrEmpty() ? NoContent() : Ok(members);
     }
 
-    [HttpGet("{id:int}/tasks")]
-    public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks(int id)
+    [HttpGet("{projectId:int}/tasks")]
+    public ActionResult<IEnumerable<ProjectTaskResponseDto>> GetAllTasks(int projectId)
     {
-        var tasks = _projectService.GetTasks(id);
+        var tasks = _projectService.GetTasks(projectId);
         return tasks.IsNullOrEmpty() ? NoContent() : Ok(tasks);
     }
     
@@ -70,25 +70,25 @@ public class ProjectController : Controller
         return isTaskValid ? NoContent() : NotFound();
     }
 
-    [HttpDelete("{id:int}")]
-    public IActionResult DeleteProject([FromRoute] int id)
+    [HttpDelete("{projectId:int}")]
+    public IActionResult DeleteProject([FromRoute] int projectId)
     {
-        var isDeleted = _projectService.Delete(id);
+        var isDeleted = _projectService.Delete(projectId);
         return isDeleted ? NoContent() : NotFound();
     }
 
-    [HttpPut("{id:int}")]
-    public IActionResult UpdateProject([FromBody] ProjectDto dto, [FromRoute] int id)
+    [HttpPut("{projectId:int}")]
+    public IActionResult UpdateProject([FromBody] ProjectDto dto, [FromRoute] int projectId)
     {
         if (!ModelState.IsValid) return BadRequest();
-        var project = _projectService.Update(dto, id);
+        var project = _projectService.Update(dto, projectId);
         return project ? Ok() : NotFound();
     }
 
-    [HttpPut("{id:int}/member/{memberId:int}")]
-    public IActionResult AddMemberToProject([FromRoute] int id, [FromRoute] int memberId)
+    [HttpPut("{projectId:int}/member/{memberId:int}")]
+    public IActionResult AddMemberToProject([FromRoute] int projectId, [FromRoute] int memberId)
     {
-        var project = _projectService.AddMemberToProject(id, memberId);
+        var project = _projectService.AddMemberToProject(projectId, memberId);
         return project ? Ok() : NotFound();
     }
 }
