@@ -25,24 +25,24 @@ public class MemberController : Controller
         return CreatedAtAction(nameof(GetMember), new { id = member.Id }, member);
     }
 
-    [HttpGet("{id:int}")]
-    public IActionResult GetMember([FromRoute] int id)
+    [HttpGet("{memberId:int}")]
+    public IActionResult GetMember([FromRoute] int memberId)
     {
-        return Ok(_memberService.GetById(id));
+        return Ok(_memberService.GetById(memberId));
     }
 
-    [HttpDelete("{id:int}")]
-    public IActionResult DeleteMember([FromRoute] int id)
+    [HttpDelete("{memberId:int}")]
+    public IActionResult DeleteMember([FromRoute] int memberId)
     {
-        var isDeleted = _memberService.Delete(id);
+        var isDeleted = _memberService.Delete(memberId);
         return isDeleted ? NoContent() : NotFound();
     }
 
-    [HttpPut("{id:int}")]
-    public IActionResult UpdateMember([FromBody] MemberDto request, [FromRoute] int id)
+    [HttpPut("{memberId:int}")]
+    public IActionResult UpdateMember([FromBody] MemberDto request, [FromRoute] int memberId)
     {
         if (!ModelState.IsValid) return BadRequest();
-        var member = _memberService.Update(request, id);
+        var member = _memberService.Update(request, memberId);
         return member ? Ok() : NotFound();
     }
 
