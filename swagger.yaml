@@ -1,13 +1,29 @@
-﻿---
+---
 openapi: 3.0.1
 info:
   title: ProjectsManagingSystem
+  description: |-
+    To be able to perfom most of actions user need to register.
+    After registration user need to login in, then special jwt will be generated.
+    Postman is highly recommend, using it you can provide jwt in `Header > Add Key:Authorization > Value:Bearer{generatedJwt}`
+  
   version: '1.0'
+  
+tags:
+  - name: Member
+    description: Member actions. Login and register are anonymous but the rest can only be done with admin or user which account belongs to.
+  - name: Project
+    description: Project actions, most of them require user to be in project or to be a moderator of project.
+  - name: Task
+    description: Task actions require user to be in specific project or to be a moderator of this project.
+
 paths:
-  "/Member":
+  /Member:
     post:
       tags:
-        - Member
+      - Member
+      summary: Add member to database
+      description: Add member to database
       requestBody:
         content:
           application/json:
@@ -25,40 +41,46 @@ paths:
   "/Member/{id}":
     get:
       tags:
-        - Member
+      - Member
+      summary: Find a member
+      description: Find member by providing Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     delete:
       tags:
-        - Member
+      - Member
+      summary: Delete a specific member
+      description: Delete member by providing Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     put:
       tags:
-        - Member
+      - Member
+      summary: Update member info
+      description: Update info o a specific membere
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       requestBody:
         content:
           application/json:
@@ -76,7 +98,9 @@ paths:
   "/Member/register":
     post:
       tags:
-        - Member
+      - Member
+      summary: Register user
+      description: Register user
       requestBody:
         content:
           application/json:
@@ -94,7 +118,9 @@ paths:
   "/Member/login":
     post:
       tags:
-        - Member
+      - Member
+      summary: Login user
+      description: Login
       requestBody:
         content:
           application/json:
@@ -112,7 +138,9 @@ paths:
   "/Project":
     post:
       tags:
-        - Project
+      - Project
+      summary: Add project
+      description: Add new project
       requestBody:
         content:
           application/json:
@@ -130,14 +158,16 @@ paths:
   "/Project/{id}/task":
     post:
       tags:
-        - Project
+      - Project
+      summary: Add task to project
+      description: Add task to a specific project 
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       requestBody:
         content:
           application/json:
@@ -155,40 +185,46 @@ paths:
   "/Project/{id}":
     get:
       tags:
-        - Project
+      - Project
+      summary: Find a project
+      description: Find a project with specific Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     delete:
       tags:
-        - Project
+      - Project
+      summary: Delete a project
+      description: Delete a project with specific Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     put:
       tags:
-        - Project
+      - Project
+      summary: Update project info
+      description: Update info of a specific project
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       requestBody:
         content:
           application/json:
@@ -206,14 +242,16 @@ paths:
   "/Project/{id}/members":
     get:
       tags:
-        - Project
+      - Project
+      summary: Get all members in project
+      description: Get all members in specific project
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
@@ -236,20 +274,22 @@ paths:
   "/Project/{id}/member/{memberId}/tasks":
     get:
       tags:
-        - Project
+      - Project
+      summary: Get all tasks assign to member
+      description: Get all tasks assign to member in specific project
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: memberId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
@@ -272,14 +312,16 @@ paths:
   "/Project/{id}/tasks":
     get:
       tags:
-        - Project
+      - Project
+      summary: Get tasks in project
+      description: Get all tasks in specific project 
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
@@ -302,86 +344,96 @@ paths:
   "/Project/{projectId}/task/{taskId}/member/{memberId}":
     put:
       tags:
-        - Project
+      - Project
+      summary: Assign task to member
+      description: Assign task to a member in specific project. Task and member need to be in the same project.
       parameters:
-        - name: projectId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: taskId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: memberId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
   "/Project/{id}/member/{memberId}":
     put:
       tags:
-        - Project
+      - Project
+      summary: Add member to project
+      description: Add member to specific project.
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: memberId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: memberId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
   "/Task/{id}":
     get:
       tags:
-        - Task
+      - Task
+      summary: Get task
+      description: Get task with specific Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     delete:
       tags:
-        - Task
+      - Task
+      summary: Delete task
+      description: Delete task with specific Id
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
           description: Success
     put:
       tags:
-        - Task
+      - Task
+      summary: Update task info
+      description: Update specific task info
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
       requestBody:
         content:
           application/json:
@@ -399,7 +451,9 @@ paths:
   "/Task":
     get:
       tags:
-        - Task
+      - Task
+      summary: Get all existing tasks
+      description: Get tasks from every project
       responses:
         '200':
           description: Success
@@ -421,7 +475,9 @@ paths:
                   "$ref": "#/components/schemas/ProjectTaskResponseDto"
     post:
       tags:
-        - Task
+      - Task
+      summary: Add new task
+      description: Add new task
       requestBody:
         content:
           application/json:
@@ -440,8 +496,8 @@ components:
   schemas:
     LoginDto:
       required:
-        - email
-        - password
+      - email
+      - password
       type: object
       properties:
         email:
@@ -486,9 +542,9 @@ components:
       additionalProperties: false
     ProjectDto:
       required:
-        - deadline
-        - description
-        - name
+      - deadline
+      - description
+      - name
       type: object
       properties:
         name:
@@ -502,8 +558,8 @@ components:
       additionalProperties: false
     ProjectTaskDto:
       required:
-        - deadline
-        - name
+      - deadline
+      - name
       type: object
       properties:
         name:
@@ -560,8 +616,8 @@ components:
       additionalProperties: false
     State:
       enum:
-        - 0
-        - 1
-        - 2
+      - 0
+      - 1
+      - 2
       type: integer
       format: int32
