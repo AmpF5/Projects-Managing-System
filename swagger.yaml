@@ -40,14 +40,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Member/{id}":
+  "/Member/{memberId}":
     get:
       tags:
       - Member
       summary: Find a member
       description: Find member by providing Id
       parameters:
-      - name: id
+      - name: memberId
         in: path
         required: true
         schema:
@@ -62,7 +62,7 @@ paths:
       summary: Delete a specific member
       description: Delete member by providing Id
       parameters:
-      - name: id
+      - name: memberId
         in: path
         required: true
         schema:
@@ -77,7 +77,7 @@ paths:
       summary: Update member info
       description: Update info o a specific membere
       parameters:
-      - name: id
+      - name: memberId
         in: path
         required: true
         schema:
@@ -157,14 +157,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Project/{id}/task":
+  "/Project/{projectId}/task":
     post:
       tags:
       - Project
       summary: Add task to project
       description: Add task to a specific project 
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -184,14 +184,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Project/{id}":
+  "/Project/{projectId}":
     get:
       tags:
       - Project
       summary: Find a project
       description: Find a project with specific Id
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -206,7 +206,7 @@ paths:
       summary: Delete a project
       description: Delete a project with specific Id
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -221,7 +221,7 @@ paths:
       summary: Update project info
       description: Update info of a specific project
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -241,14 +241,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Project/{id}/members":
+  "/Project/{projectId}/members":
     get:
       tags:
       - Project
       summary: Get all members in project
       description: Get all members in specific project
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -273,14 +273,14 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/MemberResponseDto"
-  "/Project/{id}/member/{memberId}/tasks":
+  "/Project/{projectId}/member/{memberId}/tasks":
     get:
       tags:
       - Project
       summary: Get all tasks assign to member
       description: Get all tasks assign to member in specific project
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -311,14 +311,14 @@ paths:
                 type: array
                 items:
                   "$ref": "#/components/schemas/MemberResponseDto"
-  "/Project/{id}/tasks":
+  "/Project/{projectId}/tasks":
     get:
       tags:
       - Project
       summary: Get tasks in project
       description: Get all tasks in specific project 
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -371,14 +371,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Project/{id}/member/{memberId}":
+  "/Project/{projectId}/member/{memberId}":
     put:
       tags:
       - Project
       summary: Add member to project
       description: Add member to specific project.
       parameters:
-      - name: id
+      - name: projectId
         in: path
         required: true
         schema:
@@ -393,14 +393,14 @@ paths:
       responses:
         '200':
           description: Success
-  "/Task/{id}":
+  "/Task/{taskId}":
     get:
       tags:
       - Task
       summary: Get task
       description: Get task with specific Id
       parameters:
-      - name: id
+      - name: taskId
         in: path
         required: true
         schema:
@@ -415,7 +415,7 @@ paths:
       summary: Delete task
       description: Delete task with specific Id
       parameters:
-      - name: id
+      - name: taskId
         in: path
         required: true
         schema:
@@ -430,7 +430,7 @@ paths:
       summary: Update task info
       description: Update specific task info
       parameters:
-      - name: id
+      - name: taskId
         in: path
         required: true
         schema:
