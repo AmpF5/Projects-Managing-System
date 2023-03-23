@@ -39,7 +39,6 @@ Start the server
 Swagger available at
 ```
   {localhost}/swagger/index.html
-
 ```
 ## Roadmap
 
