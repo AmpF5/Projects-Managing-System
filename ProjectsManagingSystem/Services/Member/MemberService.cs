@@ -150,7 +150,6 @@ public class MemberService : IMemberService
 
         var member = project.MemberProjects.FirstOrDefault(x => x.MemberId == id);
         if (member is null) return false;
-        member.Role = Role.Moderator;
         return member is { Role: Role.Moderator or Role.Administrator };
     }
 
